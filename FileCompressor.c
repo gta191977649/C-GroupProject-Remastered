@@ -1,7 +1,9 @@
-
 #include <stdio.h>
+/* fclose(), fopen(), fread(), fwrite(), fprintf(), printf(), fscanf()  */
 #include <string.h>
+/* memcpy(), memset() */
 #include <stdlib.h>
+/* free(), malloc(), strlen() */
 #include "FileCompressor.h"
 #include "PriorityQueue.h"
 #include "FileHandle.h"
