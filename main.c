@@ -15,7 +15,14 @@ void toogleDebugMode();
 void encryptFile();
 void decryptFile();
 void exitProgram();
-
+/******************************************************************************
+ main
+ This function is main function and read user input
+ inputs:
+  - none
+ output:
+  - if user input is 6, return 0 and end
+ *****************************************************************************/
 int main(void)
 {
     /*Test*/
@@ -54,7 +61,14 @@ int main(void)
     exitProgram();
     return 0;
 }
-
+/******************************************************************************
+ printMenu
+ This function print the user menu in console
+ inputs:
+  - none
+ output:
+  - none
+ *****************************************************************************/
 void printMenu(void)
 {
 	printf("\n"
@@ -69,7 +83,14 @@ void printMenu(void)
     "     |---------------------------------|\n"
     "Enter choice>");
 }
-
+/******************************************************************************
+ toogleDebugMode
+ This function use for toggle debug mode
+ inputs:
+  - none
+ output:
+  - none
+ *****************************************************************************/
 void toogleDebugMode(){
     char options;
     do {
@@ -84,9 +105,25 @@ void toogleDebugMode(){
     printf(debugMode ? "Debug mode set to: "GREEN"[Enabled]"
     WHITE"\n" : "Debug mode set to: "RED"[Disabled]"WHITE"\n" );
 }
+/******************************************************************************
+ exitProgram
+ This function use for exit program
+ inputs:
+  - none
+ output:
+  - none
+ *****************************************************************************/
 void exitProgram() {
     printf("Goodbye, have a gooday!\n");
 }
+/******************************************************************************
+ compressFile
+ This function use for input the filepath user want to compress
+ inputs:
+  - none
+ output:
+  - none
+ *****************************************************************************/
 void compressFile() {
     /* first, get the filename that the user wants to compress */
     printf("Please enter the file name you wish to compress: \n");
@@ -107,7 +144,14 @@ void compressFile() {
     free(fileNameBuffer);
     /*printf("%s",fileName);*/
 }
-
+/******************************************************************************
+ decompressFile
+ This function use for input the filepath user want to decompress
+ inputs:
+  - none
+ output:
+  - none
+ *****************************************************************************/
 void decompressFile() {
     printf("Please enter the file name you wish to decompress: \n");
     char fileName[MAX_FILENAME_LEN];
@@ -117,7 +161,14 @@ void decompressFile() {
     decompressorProcessFile(fileInfo, fileName,DECOMPRESS_OUTPUT_FILENAME);
     freeFileInfo(fileInfo);
 }
-
+/******************************************************************************
+ decompressFile
+ This function use for input the filepath user want to encrypt
+ inputs:
+  - none
+ output:
+  - none
+ *****************************************************************************/
 void encryptFile() {
     printf("Please enter the file name you wish to encrypt: \n");
     char fileName[MAX_FILENAME_LEN];
@@ -127,7 +178,14 @@ void encryptFile() {
     scanf("%d",&password);
     encryptWriteToFile(fileName,password);
 }
-
+/******************************************************************************
+ decompressFile
+ This function use for input the filepath user want to decrypt
+ inputs:
+  - none
+ output:
+  - none
+ *****************************************************************************/
 void decryptFile() {
     printf("Please enter the file name you wish to decrypt: \n");
     char fileName[MAX_FILENAME_LEN];
