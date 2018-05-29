@@ -9,6 +9,17 @@
 #include "FileHandle.h"
 #include "Common.h"
 
+
+/******************************************************************************
+ newHuffmanTree
+ This function create a new huffmantree and return a treenode
+ inputs:
+  - character: the char datatype, it is a human readable character like "a"
+  - frequency: the int datatype, it is a int that store the frequency
+               for the character
+ output:
+  - a treenode use for future create a tree
+ *****************************************************************************/
 node_t *newHuffmanTree(char character, int frequency)
 {
     node_t *node = (node_t *)malloc(sizeof(node_t));
@@ -18,6 +29,14 @@ node_t *newHuffmanTree(char character, int frequency)
     node->frequency = frequency;
     return node;
 }
+/******************************************************************************
+ freeHuffmanTree
+ This function free a huffmanTree from menory
+ inputs:
+  - root: a pointer to the struct contain frequency, character and child node
+ output:
+  - none
+ *****************************************************************************/
 void freeHuffmanTree(node_t *root)
 {
     if (root)
@@ -27,7 +46,14 @@ void freeHuffmanTree(node_t *root)
         free(root);
     }
 }
-
+/******************************************************************************
+ mallocFileInfo
+ This function is to require memory space for a fileinfo
+ inputs:
+  - none
+ output:
+  - fileInfo which is a struct of FileInfo
+ *****************************************************************************/
 fileinfo_t *mallocFileInfo()
 {
     fileinfo_t *fileInfo = (fileinfo_t *)malloc(sizeof(fileinfo_t));
@@ -39,6 +65,15 @@ fileinfo_t *mallocFileInfo()
     fileInfo->huffmanTree = NULL;
     return fileInfo;
 }
+/******************************************************************************
+ freeFileInfo
+ This function is to free the memory space take by a fileinfo
+ inputs:
+  - fileInfo: a potiner to the fileinfo struct contain totalfrequecy,
+              character etc.
+ output:
+  - none
+ *****************************************************************************/
 void freeFileInfo(fileinfo_t *fileInfo)
 {
     int i;
@@ -55,8 +90,15 @@ void freeFileInfo(fileinfo_t *fileInfo)
         free(fileInfo);
     }
 }
-
-/*Helepr functions for compression */
+/******************************************************************************
+ compressorGenerateStatistic
+ This function is a helepr functions for compression
+ inputs:
+  - fileInfo: a potiner to the fileinfo struct contain totalfrequecy,
+              character etc.
+ output:
+  - none
+ *****************************************************************************/
 void compressorGenerateStatistic(fileinfo_t *fileInfo, 
     const char *inputFileName)
 {
@@ -83,8 +125,15 @@ void compressorGenerateStatistic(fileinfo_t *fileInfo,
     }
     fclose(filep);
 }
-
-/* Generate a new huffman treee from the fileinfo */
+/******************************************************************************
+ compressorCreaterHuffmanTree
+ This function is create a new huffmantree from fileinfo for compression 
+ inputs:
+  - fileInfo: a potiner to the fileinfo struct contain totalfrequecy,
+              character etc.
+ output:
+  - none
+ *****************************************************************************/
 void compressorCreaterHuffmanTree(fileinfo_t *fileInfo)
 {
 
@@ -139,8 +188,18 @@ void compressorCreaterHuffmanTree(fileinfo_t *fileInfo)
 
     priorityQueueFree(pqp, NULL);
 }
-
-/* Using recursiong to generate lookupTable */
+/******************************************************************************
+ generateLookupTable
+ This function is Using recursiong to generate lookupTable 
+ inputs:
+  - huffmanTreep: a pointer to the struct contain frequency, character and 
+                  child node
+  - dictionary: a array use for contain huffmantree node chars
+  - path: a array contain path of file need to comparess
+  - depth: the depth of node in huffman tree
+ output:
+  - none
+ *****************************************************************************/
 void generateLookupTable(node_t *huffmanTreep, 
     char *dictionary[], char path[], int depth)
 {
@@ -170,8 +229,15 @@ void generateLookupTable(node_t *huffmanTreep,
         }
     }
 }
-
-/* Generate lookupTable */
+/******************************************************************************
+ compressorGenerateLookupTable
+ This function is Generating lookupTable 
+ inputs:
+  - fileInfo: a potiner to the fileinfo struct contain totalfrequecy,
+              character etc.
+ output:
+  - none
+ *****************************************************************************/
 void compressorGenerateLookupTable(fileinfo_t *fileInfo)
 {
     char path[32];
@@ -180,9 +246,15 @@ void compressorGenerateLookupTable(fileinfo_t *fileInfo)
     if (debugMode)
         printLookuptable(fileInfo);
 }
-
-/* Debug funtion for lookuptable */
-
+/******************************************************************************
+ printLookuptable
+ This function is debug funtion for lookuptable, print lookup tree in cosole
+ inputs:
+  - fileInfo: a potiner to the fileinfo struct contain totalfrequecy,
+              character etc.
+ output:
+  - none
+ *****************************************************************************/
 void printLookuptable(fileinfo_t *fileInfo)
 {
     printf("Debug for generated lookup table:\n");
@@ -195,9 +267,16 @@ void printLookuptable(fileinfo_t *fileInfo)
         }
     }
 }
-
-/* Write to the file */
-
+/******************************************************************************
+ compressorWriteLookUpTableToFile
+ This function is writing data to the file
+ inputs:
+  - fcs: a potiner to the fileinfo struct contain totalfrequecy,
+         character etc.
+  - pf: file need to write in
+ output:
+  - none
+ *****************************************************************************/
 void compressorWriteLookUpTableToFile(fileinfo_t *fcs, FILE *pf)
 {
     int i;
@@ -210,6 +289,17 @@ void compressorWriteLookUpTableToFile(fileinfo_t *fcs, FILE *pf)
         }
     }
 }
+/******************************************************************************
+ compressorWriteToFile
+ This function is writing data to the file
+ inputs:
+  - fcs: a potiner to the fileinfo struct contain totalfrequecy,
+         character etc.
+  - inFileName: pointer point to char that repersent the infile
+  - outFileName: pointer point to char that repersent the outfile
+ output:
+  - none
+ *****************************************************************************/
 void compressorWriteToFile(fileinfo_t *fcs, const char *inFileName, 
     const char *outFileName)
 {
@@ -282,6 +372,16 @@ void compressorWriteToFile(fileinfo_t *fcs, const char *inFileName,
     printf("file compress ssessful, compression rate: %f%%\n", 
         (fcs->byteTotal - bytes) * 100.0 / fcs->byteTotal);
 }
+/******************************************************************************
+ compressorReadStatistic
+ This function is reading Statistic from file
+ inputs:
+  - FileInfop: a potiner to the fileinfo struct contain totalfrequecy,
+               character etc.
+  - filep: pointer to file need to read
+ output:
+  - none
+ *****************************************************************************/
 void compressorReadStatistic(fileinfo_t *FileInfop, FILE *filep)
 {
     int i, charsCount = 0;
@@ -297,7 +397,17 @@ void compressorReadStatistic(fileinfo_t *FileInfop, FILE *filep)
         FileInfop->byteTotal += num;
     }
 }
-
+/******************************************************************************
+ decompressorWriteToFile
+ This function is write decompression data into file
+ inputs:
+  - FileInfop: a potiner to the fileinfo struct contain totalfrequecy,
+               character etc.
+  - fileInputp: pointer to file need to read
+  - outPutFileName: pointer to file need to write in
+ output:
+  - none
+ *****************************************************************************/
 void decompressorWriteToFile(fileinfo_t *fileInfo, FILE *fileInputp, 
     const char *outPutFileName)
 {
@@ -348,7 +458,17 @@ void decompressorWriteToFile(fileinfo_t *fileInfo, FILE *fileInputp,
     }
     fclose(pfOut);
 }
-
+/******************************************************************************
+ compressorProcessFile
+ This function is compress procressfile and write in file
+ inputs:
+  - fileInfo: a potiner to the fileinfo struct contain totalfrequecy,
+               character etc.
+  - inputFileName: pointer to file need to read
+  - outputFileName: pointer to file need to write in
+ output:
+  - none
+ *****************************************************************************/
 void compressorProcessFile(fileinfo_t *fileInfo, const char *inputFileName, 
     const char *outputFileName)
 {
@@ -364,8 +484,17 @@ void compressorProcessFile(fileinfo_t *fileInfo, const char *inputFileName,
         GREEN"%s"WHITE" stored as "GREEN"%s"WHITE"\n", 
         inputFileName, outputFileName);
 }
-
-/* Decomress the file */
+/******************************************************************************
+ decompressorProcessFile
+ This function is decompress exsit file
+ inputs:
+  - fileInfo: a potiner to the fileinfo struct contain totalfrequecy,
+               character etc.
+  - inputFileNamep: pointer to file need to read
+  - outputFileNamep: pointer to file need to write in
+ output:
+  - none
+ *****************************************************************************/
 void decompressorProcessFile(fileinfo_t *fileInfop, 
     const char *inputFileNamep, const char *outputFileNamep)
 {

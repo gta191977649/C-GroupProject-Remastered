@@ -23,6 +23,10 @@ typedef struct FileInfo
 } fileinfo_t;
 /* Function prototypes */
 fileinfo_t *mallocFileInfo();
+
+/******************************************************************************
+    prototypes
+******************************************************************************/
 void freeFileInfo(fileinfo_t *);
 
 void compressorProcessFile(fileinfo_t *, const char *, const char *);
