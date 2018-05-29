@@ -31,8 +31,9 @@ void encryptWriteToFile(char *filename, int password)
     }
     fclose(fileReadp);
     fclose(fileWritep);
-    free(fileOutputname);
+    
     printf("Encrption Finish, encrypted file is stored as "GREEN"%s"WHITE"\n",fileOutputname);
+    free(fileOutputname);
 }
 void decriptWriteToFile(char *filename, int password)
 {
@@ -60,6 +61,7 @@ void decriptWriteToFile(char *filename, int password)
     fclose(fileReadp);
     fclose(fileWritep);
     
-    free(fileOutputname);
+    
     printf("decryption Finish, decrypted file is stored as "GREEN"%s"WHITE"\n",fileOutputname);
+    free(fileOutputname);
 }
