@@ -1,13 +1,18 @@
 #include <stdio.h>
+/* fclose(), fopen(), printf(), fgetc(), fputc(), putchar()*/
 #include <stdlib.h>
+/* free(), malloc() */
 #include <string.h>
+/* memcpy(), strcat(), strlen() */
+
 #include "Encryption.h"
 #include "Common.h"
 
 void encryptWriteToFile(char *filename, int password)
 {
     /*Add postfix to the filename */
-    char * fileOutputname = (char *) malloc((strlen(filename) + strlen(ENCRYPT_FILE_POSTFIX)) * sizeof(char *));
+    char * fileOutputname = (char *) malloc((strlen(filename) + 
+        strlen(ENCRYPT_FILE_POSTFIX)) * sizeof(char *));
     memcpy(fileOutputname,filename,strlen(filename)+1);
     strcat(fileOutputname,ENCRYPT_FILE_POSTFIX);
     
@@ -32,13 +37,15 @@ void encryptWriteToFile(char *filename, int password)
     fclose(fileReadp);
     fclose(fileWritep);
     
-    printf("Encrption Finish, encrypted file is stored as "GREEN"%s"WHITE"\n",fileOutputname);
+    printf("Encrption Finish, encrypted file is stored as "
+        GREEN"%s"WHITE"\n",fileOutputname);
     free(fileOutputname);
 }
 void decriptWriteToFile(char *filename, int password)
 {
     /*Add postfix to the filename */
-    char * fileOutputname = (char *) malloc((strlen(filename) + strlen(ENCRYPT_FILE_POSTFIX)) * sizeof(char *));
+    char * fileOutputname = (char *) malloc((strlen(filename) + 
+        strlen(ENCRYPT_FILE_POSTFIX)) * sizeof(char *));
     memcpy(fileOutputname,filename,strlen(filename)+1);
     strcat(fileOutputname,DECNCRYPT_FILE_POSTFIX);
    
@@ -62,6 +69,7 @@ void decriptWriteToFile(char *filename, int password)
     fclose(fileWritep);
     
     
-    printf("decryption Finish, decrypted file is stored as "GREEN"%s"WHITE"\n",fileOutputname);
+    printf("decryption Finish, decrypted file is stored as "
+        GREEN"%s"WHITE"\n",fileOutputname);
     free(fileOutputname);
 }

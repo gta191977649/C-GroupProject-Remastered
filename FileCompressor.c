@@ -31,7 +31,8 @@ fileinfo_t *mallocFileInfo()
     fileinfo_t *fileInfo = (fileinfo_t *)malloc(sizeof(fileinfo_t));
     fileInfo->characterCount = 0;
     fileInfo->byteTotal = 0;
-    memset(fileInfo->numberOfEachCharacters, 0, sizeof(fileInfo->numberOfEachCharacters));
+    memset(fileInfo->numberOfEachCharacters, 0, 
+        sizeof(fileInfo->numberOfEachCharacters));
     memset(fileInfo->dictionary, 0, sizeof(fileInfo->dictionary));
     fileInfo->huffmanTree = NULL;
     return fileInfo;
@@ -54,14 +55,16 @@ void freeFileInfo(fileinfo_t *fileInfo)
 }
 
 /*Helepr functions for compression */
-void compressorGenerateStatistic(fileinfo_t *fileInfo, const char *inputFileName)
+void compressorGenerateStatistic(fileinfo_t *fileInfo, 
+    const char *inputFileName)
 {
     int result, i;
     unsigned char fileBuffer[FILE_BUF_SIZE];
     FILE *filep = fopen(inputFileName, "rb");
     if (!filep)
     {
-        fprintf(stderr, "Error Cannot open file : "GREEN"%s"WHITE"\n", inputFileName);
+        fprintf(stderr, "Error Cannot open file : "
+            GREEN"%s"WHITE"\n", inputFileName);
         return;
     }
     while ((result = fread(fileBuffer, 1, FILE_BUF_SIZE, filep)) > 0)
@@ -94,19 +97,22 @@ void compressorCreaterHuffmanTree(fileinfo_t *fileInfo)
     {
         if (fileInfo->numberOfEachCharacters[i])
         {
-            huffmanTree = newHuffmanTree((char)i, fileInfo->numberOfEachCharacters[i]);
+            huffmanTree = newHuffmanTree((char)i, 
+                fileInfo->numberOfEachCharacters[i]);
             kv = newMap(fileInfo->numberOfEachCharacters[i], huffmanTree);
             priorityQueueEnqueue(pqp, kv);
         }
     }
 
     if (debugMode)
-        fprintf(stdout, "the number of haffuman leaf is %d\n", priorityQueueSize(pqp));
+        fprintf(stdout, "the number of haffuman leaf is %d\n", 
+            priorityQueueSize(pqp));
 
     while (!priorityQueueEmpty(pqp))
     {
         if(debugMode)
-            fprintf(stdout, "[Debug]: Quene Size: %d\n", priorityQueueSize(pqp));
+            fprintf(stdout, "[Debug]: Quene Size: %d\n", 
+                priorityQueueSize(pqp));
         kv1 = priorityQueueDequeue(pqp);
         kv2 = priorityQueueDequeue(pqp);
         if (kv2 == NULL)
@@ -133,7 +139,8 @@ void compressorCreaterHuffmanTree(fileinfo_t *fileInfo)
 }
 
 /* Using recursiong to generate lookupTable */
-void generateLookupTable(node_t *huffmanTreep, char *dictionary[], char path[], int depth)
+void generateLookupTable(node_t *huffmanTreep, 
+    char *dictionary[], char path[], int depth)
 {
     char *code = NULL;
     if (huffmanTreep)
@@ -149,13 +156,15 @@ void generateLookupTable(node_t *huffmanTreep, char *dictionary[], char path[], 
         if (huffmanTreep->left)
         {
             path[depth] = '0';
-            generateLookupTable(huffmanTreep->left, dictionary, path, depth + 1);
+            generateLookupTable(huffmanTreep->left, 
+                dictionary, path, depth + 1);
         }
 
         if (huffmanTreep->right)
         {
             path[depth] = '1';
-            generateLookupTable(huffmanTreep->right, dictionary, path, depth + 1);
+            generateLookupTable(huffmanTreep->right, 
+                dictionary, path, depth + 1);
         }
     }
 }
@@ -199,7 +208,8 @@ void compressorWriteLookUpTableToFile(fileinfo_t *fcs, FILE *pf)
         }
     }
 }
-void compressorWriteToFile(fileinfo_t *fcs, const char *inFileName, const char *outFileName)
+void compressorWriteToFile(fileinfo_t *fcs, const char *inFileName, 
+    const char *outFileName)
 {
     int i, j, ret;
 
@@ -267,7 +277,8 @@ void compressorWriteToFile(fileinfo_t *fcs, const char *inFileName, const char *
 
     fclose(pfIn);
     fclose(pfOut);
-    printf("file compress ssessful, compression rate: %f%%\n", (fcs->byteTotal - bytes) * 100.0 / fcs->byteTotal);
+    printf("file compress ssessful, compression rate: %f%%\n", 
+        (fcs->byteTotal - bytes) * 100.0 / fcs->byteTotal);
 }
 void compressorReadStatistic(fileinfo_t *FileInfop, FILE *filep)
 {
@@ -285,7 +296,8 @@ void compressorReadStatistic(fileinfo_t *FileInfop, FILE *filep)
     }
 }
 
-void decompressorWriteToFile(fileinfo_t *fileInfo, FILE *fileInputp, const char *outPutFileName)
+void decompressorWriteToFile(fileinfo_t *fileInfo, FILE *fileInputp, 
+    const char *outPutFileName)
 {
     int i, j, ret;
     unsigned char ch;
@@ -335,29 +347,36 @@ void decompressorWriteToFile(fileinfo_t *fileInfo, FILE *fileInputp, const char 
     fclose(pfOut);
 }
 
-void compressorProcessFile(fileinfo_t *fileInfo, const char *inputFileName, const char *outputFileName)
+void compressorProcessFile(fileinfo_t *fileInfo, const char *inputFileName, 
+    const char *outputFileName)
 {
     if (debugMode)
-        fprintf(stdout, "[Debug]: To compress file: "GREEN"%s"WHITE" ...\n", inputFileName);
+        fprintf(stdout, "[Debug]: To compress file: "
+            GREEN"%s"WHITE" ...\n", inputFileName);
     compressorGenerateStatistic(fileInfo, inputFileName);
     compressorCreaterHuffmanTree(fileInfo);
     compressorGenerateLookupTable(fileInfo);
     compressorWriteToFile(fileInfo, inputFileName, outputFileName);
 
-    fprintf(stdout, "The compressed of file: "GREEN"%s"WHITE" stored as "GREEN"%s"WHITE"\n", inputFileName, outputFileName);
+    fprintf(stdout, "The compressed of file: "
+        GREEN"%s"WHITE" stored as "GREEN"%s"WHITE"\n", 
+        inputFileName, outputFileName);
 }
 
 /* Decomress the file */
-void decompressorProcessFile(fileinfo_t *fileInfop, const char *inputFileNamep, const char *outputFileNamep)
+void decompressorProcessFile(fileinfo_t *fileInfop, 
+    const char *inputFileNamep, const char *outputFileNamep)
 {
 
     FILE *fileInp;
     if (debugMode)
-        fprintf(stdout, "[Debug]: To decompress file: "GREEN"%s"WHITE" ...\n", inputFileNamep);
+        fprintf(stdout, "[Debug]: To decompress file: "
+            GREEN"%s"WHITE" ...\n", inputFileNamep);
     fileInp = fopen(inputFileNamep, "rb");
     if (!fileInp)
     {
-        fprintf(stderr, "error cannot open file: "GREEN"%s"WHITE"\n", inputFileNamep);
+        fprintf(stderr, "error cannot open file: "
+            GREEN"%s"WHITE"\n", inputFileNamep);
         return;
     }
     compressorReadStatistic(fileInfop, fileInp);
@@ -365,5 +384,7 @@ void decompressorProcessFile(fileinfo_t *fileInfop, const char *inputFileNamep, 
     compressorGenerateLookupTable(fileInfop);
     decompressorWriteToFile(fileInfop, fileInp, outputFileNamep);
     fclose(fileInp);
-    fprintf(stdout, "The decompressed of file: "GREEN"%s"WHITE" stored at "GREEN"%s"WHITE"\n", inputFileNamep, outputFileNamep);
+    fprintf(stdout, "The decompressed of file: "
+        GREEN"%s"WHITE" stored at "GREEN"%s"WHITE"\n", 
+        inputFileNamep, outputFileNamep);
 }

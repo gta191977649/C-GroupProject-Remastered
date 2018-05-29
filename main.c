@@ -59,7 +59,7 @@ void printMenu(void)
 {
 	printf("\n"
 	"     __-------------Title-------------__\n"
-	"     |		          By: Group X  |\n"	
+	"     |		          By: Group 27 |\n"	
     "     |1. Encrypt the file              |\n"
     "     |2. Decrypt the file              |\n"
     "     |3. Compress the file             |\n"
@@ -73,13 +73,16 @@ void printMenu(void)
 void toogleDebugMode(){
     char options;
     do {
-        printf(debugMode ? "Current Debug mode: "GREEN"[Enabled]"WHITE"\n" : "Current Debug mode: "RED"[Disabled]"WHITE"\n" );
+        printf(debugMode ? "Current Debug mode: "
+            GREEN"[Enabled]"WHITE"\n" : "Current Debug mode: "
+            RED"[Disabled]"WHITE"\n" );
         printf("Enter y for set enable, n for set disable.");
         printf("Your chouse > ");
         scanf("%c",&options);
     } while (options != 'y' && options != 'n');
     debugMode = options == 'y' ? 1 : 0;
-    printf(debugMode ? "Debug mode set to: "GREEN"[Enabled]"WHITE"\n" : "Debug mode set to: "RED"[Disabled]"WHITE"\n" );
+    printf(debugMode ? "Debug mode set to: "GREEN"[Enabled]"
+    WHITE"\n" : "Debug mode set to: "RED"[Disabled]"WHITE"\n" );
 }
 void exitProgram() {
     printf("Goodbye, have a gooday!\n");
@@ -93,7 +96,8 @@ void compressFile() {
     fileinfo_t *fileinfo;
     fileinfo = mallocFileInfo();
 
-    char *fileNameBuffer = (char*) malloc((strlen(fileName) + strlen(COMPRESS_OUTPUT_PREFIX)) * sizeof(char*));
+    char *fileNameBuffer = (char*) malloc((strlen(fileName) + 
+        strlen(COMPRESS_OUTPUT_PREFIX)) * sizeof(char*));
     strcat(fileNameBuffer,fileName);
     strcat(fileNameBuffer,COMPRESS_OUTPUT_PREFIX);
     printf("%s",fileNameBuffer);
