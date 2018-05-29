@@ -22,6 +22,7 @@ typedef struct PriorityQueue
 map_t *newMap(int key, void *value);
 void mapValueFree(map_t *kv, void (*freevalue)(void *));
 
+/* =============Prototype========================================= */
 priorityqueue_t *priorityQueueNew(int priority);
 void priorityQueueFree(priorityqueue_t *pq, void (*freevalue)(void *));
 const map_t *priorityQueueTop(priorityqueue_t *pq);

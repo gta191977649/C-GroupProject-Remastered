@@ -10,7 +10,16 @@ static void priorityQueueAdjustTail(priorityqueue_t *pq);
 static int priorityQueueCompare(priorityqueue_t *pq, int pos1, int pos2);
 static void priorityQueueSwap(map_t **nodes, int pos1, int pos2);
 
-/*Functions of KeyValue Struct*/
+
+/*****************************************************************************
+ newMap
+ This function is creating a new map 
+ inputs:
+  - key: the unique key value function like id
+  - value: a hashmap to pair with key
+ output:
+  - a map with key and value
+ *****************************************************************************/
 map_t *newMap(int key, void *value)
 {
     map_t *map = (map_t *)malloc(sizeof(map_t));
@@ -18,6 +27,15 @@ map_t *newMap(int key, void *value)
     map->value = value;
     return map;
 }
+/*****************************************************************************
+ mapValueFree
+ This function is to free the map from memory
+ inputs:
+  - map: a potiner to the map struct contain key, and keyvalue
+  - freevalue: function pointer to free from memory
+ output:
+  - none
+ *****************************************************************************/
 void mapValueFree(map_t *map, void (*freevalue)(void *))
 {
     if (map)
@@ -29,8 +47,14 @@ void mapValueFree(map_t *map, void (*freevalue)(void *))
         free(map);
     }
 }
-
-/*Functions of PriorityQueue Struct*/
+/******************************************************************************
+ priorityQueueNew
+ This function is create new priority queue
+ inputs:
+  - priority: int datetype use to show priority 
+ output:
+  - priorityqueue with nodesp, size, capacity and priority
+ *****************************************************************************/
 priorityqueue_t *priorityQueueNew(int priority)
 {
     priorityqueue_t *pq = (priorityqueue_t *)malloc(sizeof(priorityqueue_t));
@@ -41,7 +65,15 @@ priorityqueue_t *priorityQueueNew(int priority)
     pq->nodesp = (map_t **)malloc(sizeof(map_t *) * pq->capacity);
     return pq;
 }
-
+/******************************************************************************
+ priorityQueueFree
+ This function is free priority queue from memory
+ inputs:
+  - pq: priorityqueue struct with nodesp, size, capacity and priority
+  - freevalue: function pointer to free from memory
+ output:
+  - none
+ *****************************************************************************/
 void priorityQueueFree(priorityqueue_t *pq, void (*freevalue)(void *))
 {
     int i;
@@ -55,7 +87,15 @@ void priorityQueueFree(priorityqueue_t *pq, void (*freevalue)(void *))
         free(pq);
     }
 }
-
+/******************************************************************************
+ priorityQueueTop
+ This function is pop first node in priority queue
+ inputs:
+  - priorityQueuep: pointer point to priorityqueue struct with nodesp, size, 
+                    capacity and priority
+ output:
+  - a map with key and value
+ *****************************************************************************/
 const map_t *priorityQueueTop(priorityqueue_t *priorityQueuep)
 {
     if (priorityQueuep->size > 0)
@@ -64,7 +104,15 @@ const map_t *priorityQueueTop(priorityqueue_t *priorityQueuep)
     }
     return NULL;
 }
-
+/******************************************************************************
+ priorityQueueDequeue
+ This function is remove top node from queue
+ inputs:
+  - priorityQueuep: pointer point to priorityqueue struct with nodesp, size, 
+                    capacity and priority
+ output:
+  - a map with key and value
+ *****************************************************************************/
 map_t *priorityQueueDequeue(priorityqueue_t *priorityQueuep)
 {
     map_t *mapp = NULL;
@@ -75,7 +123,16 @@ map_t *priorityQueueDequeue(priorityqueue_t *priorityQueuep)
     }
     return mapp;
 }
-
+/******************************************************************************
+ priorityQueueEnqueue
+ This function is add node into queue
+ inputs:
+  - pqp: pointer point to priorityqueue struct with nodesp, size, 
+         capacity and priority
+  - mapp: pointer to map with key and value
+ output:
+  - none
+ *****************************************************************************/
 void priorityQueueEnqueue(priorityqueue_t *pqp, map_t *mapp)
 {
     printf("add key:%d\n", mapp->key);
@@ -86,17 +143,41 @@ void priorityQueueEnqueue(priorityqueue_t *pqp, map_t *mapp)
         priorityQueueRealloc(pqp);
     }
 }
-
+/******************************************************************************
+ priorityQueueSize
+ This function is count size of queue
+ inputs:
+  - pqp: pointer point to priorityqueue struct with nodesp, size, 
+         capacity and priority
+ output:
+  - int datatype value, size of queue
+ *****************************************************************************/
 int priorityQueueSize(priorityqueue_t *pqp)
 {
     return pqp->size;
 }
-
+/******************************************************************************
+ priorityQueueEmpty
+ This function is checking is queue is empty
+ inputs:
+  - pqp: pointer point to priorityqueue struct with nodesp, size, 
+         capacity and priority
+ output:
+  - 0 or 1 to show is queue is empty
+ *****************************************************************************/
 int priorityQueueEmpty(priorityqueue_t *pqp)
 {
     return pqp->size <= 0;
 }
-
+/******************************************************************************
+ priorityQueuePrint
+ This function is printing the entire queue
+ inputs:
+  - pqp: pointer point to priorityqueue struct with nodesp, size, 
+         capacity and priority
+ output:
+  - none
+ *****************************************************************************/
 void priorityQueuePrint(priorityqueue_t *pqp)
 {
     int i;
@@ -116,13 +197,29 @@ void priorityQueuePrint(priorityqueue_t *pqp)
     }
     printf("\n");
 }
-
+/******************************************************************************
+ priorityQueueRealloc
+ This function is reallocing the memory size of priority queue
+ inputs:
+  - pqp: pointer point to priorityqueue struct with nodesp, size, 
+         capacity and priority
+ output:
+  - none
+ *****************************************************************************/
 static void priorityQueueRealloc(priorityqueue_t *pqp)
 {
     pqp->capacity = pqp->capacity * 2;
     pqp->nodesp = realloc(pqp->nodesp, sizeof(map_t *) * pqp->capacity);
 }
-
+/******************************************************************************
+ priorityQueueAdjustHead
+ This function is adjust the head of priority queue
+ inputs:
+  - pqp: pointer point to priorityqueue struct with nodesp, size, 
+         capacity and priority
+ output:
+  - none
+ *****************************************************************************/
 static void priorityQueueAdjustHead(priorityqueue_t *pqp)
 {
     int i, j, parent, left, right;
@@ -153,7 +250,15 @@ static void priorityQueueAdjustHead(priorityqueue_t *pqp)
         }
     }
 }
-
+/******************************************************************************
+ priorityQueueAdjustTail
+ This function is adjust the tail of priority queue
+ inputs:
+  - pqp: pointer point to priorityqueue struct with nodesp, size, 
+         capacity and priority
+ output:
+  - none
+ *****************************************************************************/
 static void priorityQueueAdjustTail(priorityqueue_t *pqp)
 {
     int i, parent, child;
@@ -176,7 +281,17 @@ static void priorityQueueAdjustTail(priorityqueue_t *pqp)
         }
     }
 }
-
+/******************************************************************************
+ priorityQueueCompare
+ This function is compare the two value in queue
+ inputs:
+  - pqp: pointer point to priorityqueue struct with nodesp, size, 
+         capacity and priority
+  - pos1: position of 1st node
+  - pos2: position of 2nd node
+ output:
+  - compare result of 2 node
+ *****************************************************************************/
 static int priorityQueueCompare(priorityqueue_t *pqp, int pos1, int pos2)
 {
     int adjust = -1;
@@ -187,7 +302,17 @@ static int priorityQueueCompare(priorityqueue_t *pqp, int pos1, int pos2)
     }
     return r;
 }
-
+/******************************************************************************
+ priorityQueueSwap
+ This function is swap 2 node in queue
+ inputs:
+  - pqp: pointer point to priorityqueue struct with nodesp, size, 
+         capacity and priority
+  - pos1: position of 1st node
+  - pos2: position of 2nd node
+ output:
+  - none
+ *****************************************************************************/
 static void priorityQueueSwap(map_t **nodesp, int pos1, int pos2)
 {
     map_t *temp = nodesp[pos1];

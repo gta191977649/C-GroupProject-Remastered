@@ -7,7 +7,15 @@
 
 #include "Encryption.h"
 #include "Common.h"
-
+/******************************************************************************
+ encryptWriteToFile
+ This function is write file need to encrypt into memery
+ inputs:
+  - filename: pointer to a char means the filepath 
+  - password: pointer to a char which is password 
+ output:
+  - none
+ *****************************************************************************/
 void encryptWriteToFile(char *filename, int password)
 {
     /*Add postfix to the filename */
@@ -41,6 +49,15 @@ void encryptWriteToFile(char *filename, int password)
         GREEN"%s"WHITE"\n",fileOutputname);
     free(fileOutputname);
 }
+/******************************************************************************
+ decriptWriteToFile
+ This function is write file need to decrypt into memery
+ inputs:
+  - filename: pointer to a char means the filepath 
+  - password: pointer to a char which is password 
+ output:
+  - none
+ *****************************************************************************/
 void decriptWriteToFile(char *filename, int password)
 {
     /*Add postfix to the filename */
