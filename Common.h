@@ -3,4 +3,4 @@
 #define GREEN  "\x1B[32m"
 #define WHITE  "\x1B[37m"
 
-static int debugMode = 0;
+int debugMode;

@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "Common.h"
 #include "FileCompressor.h"
 #include "Encryption.h"
-#include "Common.h"
+
 
 #define MAX_FILENAME_LEN 256
 #define COMPRESS_OUTPUT_FILENAME "compressed.txt"
@@ -26,6 +27,7 @@ void exitProgram();
 int main(void)
 {
     /*Test*/
+    debugMode = 0;
 	int choice = 0;
 	while(choice != 6)
    	{
