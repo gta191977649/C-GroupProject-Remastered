@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "PriorityQueue.h"
-
+#include "Common.h"
 /*Private Functions*/
 static void priorityQueueRealloc(priorityqueue_t *pq);
 static void priorityQueueAdjustHead(priorityqueue_t *pq);
@@ -135,7 +135,8 @@ map_t *priorityQueueDequeue(priorityqueue_t *priorityQueuep)
  *****************************************************************************/
 void priorityQueueEnqueue(priorityqueue_t *pqp, map_t *mapp)
 {
-    printf("add key:%d\n", mapp->key);
+    if(debugMode)
+        printf("add key:%d\n", mapp->key);
     pqp->nodesp[pqp->size] = mapp;
     priorityQueueAdjustTail(pqp);
     if (pqp->size >= pqp->capacity)
@@ -185,6 +186,10 @@ void priorityQueuePrint(priorityqueue_t *pqp)
     printf("data in the pq->_nodes\n");
     for (i = 0; i < pqp->size; ++i)
     {
+    /*
+        debug only
+        print all node in queue
+    */
         printf("%d ", pqp->nodesp[i]->key);
     }
     printf("\n");
@@ -230,6 +235,9 @@ static void priorityQueueAdjustHead(priorityqueue_t *pqp)
     pqp->size--;
     while (i < (pqp->size - 1) / 2)
     {
+    /*
+        for each queue node do adjust operaction
+    */
         parent = i;
 
         left = i * 2 + 1;
@@ -267,6 +275,9 @@ static void priorityQueueAdjustTail(priorityqueue_t *pqp)
     pqp->size++;
     while (i > 0)
     {
+    /*
+        for each queue node do adjust operaction
+    */
         child = i;
         parent = (child - 1) / 2;
 

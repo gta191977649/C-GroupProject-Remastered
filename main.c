@@ -6,7 +6,7 @@
 #include "Common.h"
 
 #define MAX_FILENAME_LEN 256
-#define COMPRESS_OUTPUT_PREFIX "compressed.txt"
+#define COMPRESS_OUTPUT_FILENAME "compressed.txt"
 #define DECOMPRESS_OUTPUT_FILENAME "out.txt"
 void printMenu(void);
 void compressFile();
@@ -132,16 +132,17 @@ void compressFile() {
 
     fileinfo_t *fileinfo;
     fileinfo = mallocFileInfo();
-
+    /*
     char *fileNameBuffer = (char*) malloc((strlen(fileName) + 
         strlen(COMPRESS_OUTPUT_PREFIX)) * sizeof(char*));
     strcat(fileNameBuffer,fileName);
     strcat(fileNameBuffer,COMPRESS_OUTPUT_PREFIX);
     printf("%s",fileNameBuffer);
+    */
     
-    compressorProcessFile(fileinfo, fileName, fileNameBuffer);
+    compressorProcessFile(fileinfo, fileName, COMPRESS_OUTPUT_FILENAME);
     freeFileInfo(fileinfo);
-    free(fileNameBuffer);
+    /*free(fileNameBuffer);*/
     /*printf("%s",fileName);*/
 }
 /******************************************************************************

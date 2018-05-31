@@ -84,6 +84,9 @@ void freeFileInfo(fileinfo_t *fileInfo)
             freeHuffmanTree(fileInfo->huffmanTree);
         }
         for (i = 0; i < MAX_CHARS; ++i)
+        /*
+            free the tree in recursion
+        */
         {
             free(fileInfo->dictionary[i]);
         }
@@ -116,6 +119,9 @@ void compressorGenerateStatistic(fileinfo_t *fileInfo,
         fileInfo->byteTotal += result;
         for (i = 0; i < result; ++i)
         {
+        /*
+            count frequence for each charactor
+        */
             if (fileInfo->numberOfEachCharacters[fileBuffer[i]] == 0)
             {
                 fileInfo->characterCount++;
@@ -145,6 +151,9 @@ void compressorCreaterHuffmanTree(fileinfo_t *fileInfo)
     pqp = priorityQueueNew(PRIORITY_MIN);
 
     for (i = 0; i < MAX_ALPHABIT_LEN; ++i)
+    /*
+        for each number of chearctors put them into map and enqueue them
+    */
     {
         if (fileInfo->numberOfEachCharacters[i])
         {
@@ -261,6 +270,10 @@ void printLookuptable(fileinfo_t *fileInfo)
     int i;
     for (i = 0; i < MAX_ALPHABIT_LEN; ++i)
     {
+    /*
+        for each chrarctor print frequence
+        debug only
+    */
         if (fileInfo->dictionary[i] != NULL)
         {
             fprintf(stdout, "%c:%s\n", i, fileInfo->dictionary[i]);
@@ -283,6 +296,9 @@ void compressorWriteLookUpTableToFile(fileinfo_t *fcs, FILE *pf)
     fprintf(pf, "%d\n", fcs->characterCount);
     for (i = 0; i < MAX_CHARS; ++i)
     {
+    /*
+        write lookup table of charactor into file
+    */
         if (fcs->numberOfEachCharacters[i] != 0)
         {
             fprintf(pf, "%d %d\n", i, fcs->numberOfEachCharacters[i]);
@@ -334,6 +350,9 @@ void compressorWriteToFile(fileinfo_t *fcs, const char *inFileName,
     bytes = 0;
     while ((ret = fread(inBuf, 1, FILE_BUF_SIZE, pfIn)) > 0)
     {
+    /*
+        write compressed data into file
+    */
         for (i = 0; i < ret; ++i)
         {
             len = strlen(fcs->dictionary[inBuf[i]]);
@@ -369,7 +388,7 @@ void compressorWriteToFile(fileinfo_t *fcs, const char *inFileName,
 
     fclose(pfIn);
     fclose(pfOut);
-    printf("file compress ssessful, compression rate: %f%%\n", 
+    printf("file compress ssessful, compression rate: "GREEN"%f%%"WHITE"\n", 
         (fcs->byteTotal - bytes) * 100.0 / fcs->byteTotal);
 }
 /******************************************************************************
@@ -392,6 +411,9 @@ void compressorReadStatistic(fileinfo_t *FileInfop, FILE *filep)
 
     for (i = 0; i < charsCount; ++i)
     {
+    /*
+        calculate btye from static
+    */
         fscanf(filep, "%d %d\n", &ch, &num);
         FileInfop->numberOfEachCharacters[(unsigned int)ch] = num;
         FileInfop->byteTotal += num;
@@ -430,6 +452,9 @@ void decompressorWriteToFile(fileinfo_t *fileInfo, FILE *fileInputp,
     bitPos = 0;*/
     while ((ret = fread(buf, 1, FILE_BUF_SIZE, fileInputp)) > 0)
     {
+    /*
+        wirte decompressed data into file
+    */
         for (i = 0; i < ret; ++i)
         {
             ch = buf[i];

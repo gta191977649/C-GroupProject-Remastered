@@ -19,16 +19,17 @@
 void encryptWriteToFile(char *filename, int password)
 {
     /*Add postfix to the filename */
-    char * fileOutputname = (char *) malloc((strlen(filename) + 
+    /*char * fileOutputname = (char *) malloc((strlen(filename) + 
         strlen(ENCRYPT_FILE_POSTFIX)) * sizeof(char *));
     memcpy(fileOutputname,filename,strlen(filename)+1);
-    strcat(fileOutputname,ENCRYPT_FILE_POSTFIX);
-    
+    char * fileOutputname = (char *) malloc(strlen(ENCRYPT_FILE_NAME) +1 * sizeof(char *));
+    strcat(fileOutputname,ENCRYPT_FILE_NAME);
+    */
     
     char result;
     FILE *fileReadp,*fileWritep;
     fileReadp = fopen(filename, "r");
-    fileWritep = fopen(fileOutputname, "w");
+    fileWritep = fopen(ENCRYPT_FILE_NAME, "w");
     
     if(!fileReadp || !fileWritep) {
         printf("Error cannot open file: \n");
@@ -36,6 +37,10 @@ void encryptWriteToFile(char *filename, int password)
     }
 
     if(debugMode) printf("[Debug]: Content while encryption: \n");
+    /* 
+        Loop through the file line by line until the end of file, for each 
+        line mod it with the password.
+     */
     while ((result = fgetc(fileReadp)) != EOF)
     {
         result ^= password;
@@ -46,8 +51,8 @@ void encryptWriteToFile(char *filename, int password)
     fclose(fileWritep);
     
     printf("Encrption Finish, encrypted file is stored as "
-        GREEN"%s"WHITE"\n",fileOutputname);
-    free(fileOutputname);
+        GREEN"%s"WHITE"\n",ENCRYPT_FILE_NAME);
+    /*free(ENCRYPT_FILE_NAME);*/
 }
 /******************************************************************************
  decriptWriteToFile
@@ -61,16 +66,19 @@ void encryptWriteToFile(char *filename, int password)
 void decriptWriteToFile(char *filename, int password)
 {
     /*Add postfix to the filename */
+    /*
     char * fileOutputname = (char *) malloc((strlen(filename) + 
         strlen(ENCRYPT_FILE_POSTFIX)) * sizeof(char *));
     memcpy(fileOutputname,filename,strlen(filename)+1);
+    
     strcat(fileOutputname,DECNCRYPT_FILE_POSTFIX);
+    */
    
     
     char result;
     FILE *fileReadp,*fileWritep;
     fileReadp = fopen(filename, "r");
-    fileWritep = fopen(fileOutputname, "w");
+    fileWritep = fopen(DECNCRYPT_FILE_NAME, "w");
     if(!fileReadp || !fileWritep) {
         printf("Error cannot open file: \n");
         return;
@@ -87,6 +95,6 @@ void decriptWriteToFile(char *filename, int password)
     
     
     printf("decryption Finish, decrypted file is stored as "
-        GREEN"%s"WHITE"\n",fileOutputname);
-    free(fileOutputname);
+        GREEN"%s"WHITE"\n",DECNCRYPT_FILE_NAME);
+    /*free(DECNCRYPT_FILE_NAME);*/
 }
